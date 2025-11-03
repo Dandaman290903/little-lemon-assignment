@@ -1,7 +1,7 @@
 export default function Footer() {
   return (
     <footer>
-      <div>
+      <div className="footer-nav">
         <h3>Doormat Navigation</h3>
         <ul>
           <li><a href="#home">Home</a></li>
@@ -13,7 +13,7 @@ export default function Footer() {
         </ul>
       </div>
 
-      <div>
+      <div className="contact">
         <h3>Contact</h3>
         <address>
           123 Citrus Lane, Lemon Grove, NZ<br />
@@ -22,7 +22,7 @@ export default function Footer() {
         </address>
       </div>
 
-      <div>
+      <div className="social">
         <h3>Social Media</h3>
         <ul>
           <li><a href="#instagram">Instagram</a></li>
