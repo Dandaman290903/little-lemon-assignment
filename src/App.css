@@ -49,8 +49,7 @@ nav a:focus {
 }
 
 main {
-  display: flex;
-  flex-wrap: wrap;
+  display: block;
   justify-content: center;
   padding: 2rem;
   gap: 2rem;
