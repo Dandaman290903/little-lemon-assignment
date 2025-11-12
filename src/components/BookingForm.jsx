@@ -6,11 +6,13 @@ export default function BookingForm({ availableTimes, dispatch }) {
   const [guests, setGuests] = useState(2);
   const [occasion, setOccasion] = useState("Birthday");
 
+  const today = new Date().toISOString().split("T")[0];
   const isValid = date && time && Number(guests) >= 1 && Number(guests) <= 10;
 
   function handleDateChange(value) {
     setDate(value);
     dispatch({ type: "set_date", date: value });
+    setTime("");
   }
 
   function handleSubmit(e) {
@@ -23,10 +25,12 @@ export default function BookingForm({ availableTimes, dispatch }) {
 
   return (
     <form onSubmit={handleSubmit} style={{ display: "grid", gap: 16, maxWidth: 360 }}>
+      <h3 id="booking-form-heading">Book a Table</h3>
       <label htmlFor="res-date">Choose date</label>
       <input
         type="date"
         id="res-date"
+        min={today}
         value={date}
         onChange={(e) => handleDateChange(e.target.value)}
         required
@@ -37,11 +41,11 @@ export default function BookingForm({ availableTimes, dispatch }) {
         id="res-time"
         value={time}
         onChange={(e) => setTime(e.target.value)}
+        disabled={!date || availableTimes.length === 0}
         required
-        disabled={availableTimes.length === 0}
       >
         <option value="" disabled>
-          {availableTimes.length ? "Select a time" : "Select a date first"}
+          {date ? "Select a time" : "Pick a date first"}
         </option>
         {availableTimes.map((t) => (
           <option key={t} value={t}>{t}</option>
