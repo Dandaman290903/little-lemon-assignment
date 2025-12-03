@@ -3,14 +3,21 @@ import BookingForm from "../BookingForm";
 
 describe("BookingForm", () => {
   const mockDispatch = jest.fn();
+  const mockSubmitForm = jest.fn();
 
   function renderForm() {
     const props = {
       availableTimes: ["17:00", "18:00", "19:00"],
       dispatch: mockDispatch,
+      submitForm: mockSubmitForm,
     };
     render(<BookingForm {...props} />);
   }
+
+  beforeEach(() => {
+    mockDispatch.mockReset();
+    mockSubmitForm.mockReset();
+  });
 
   test("renders static text correctly", () => {
     renderForm();
@@ -21,7 +28,7 @@ describe("BookingForm", () => {
     expect(screen.getByLabelText(/occasion/i)).toBeInTheDocument();
   });
 
-  test("allows user to fill and submit the form", () => {
+  test("allows user to fill and submit the form and calls submitForm with form data", () => {
     renderForm();
 
     fireEvent.change(screen.getByLabelText(/choose date/i), {
@@ -37,8 +44,18 @@ describe("BookingForm", () => {
       target: { value: "Birthday" },
     });
 
-    fireEvent.click(screen.getByRole("button", { name: /submit reservation/i }));
+    fireEvent.click(
+      screen.getByRole("button", { name: /submit reservation/i })
+    );
 
     expect(screen.getByLabelText(/choose date/i)).toHaveValue("2025-11-15");
+
+    expect(mockSubmitForm).toHaveBeenCalledTimes(1);
+    expect(mockSubmitForm).toHaveBeenCalledWith({
+      date: "2025-11-15",
+      time: "18:00",
+      guests: 3,
+      occasion: "Birthday",
+    });
   });
 });
